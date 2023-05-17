@@ -1,6 +1,6 @@
 services:
   - type: web
-  - name: websvc
+    name: websvc
     env:
       JWT_PRIVATE_KEY: ${{ env.ENV_JWT_PKEY }}
     buildCommand: docker build -t web-app .

@@ -18,7 +18,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.ApplyMigration();
+DataServicesInitializerExtension.ApplyMigration(app);
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseStaticFiles(new StaticFileOptions

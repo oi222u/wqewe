@@ -78,7 +78,6 @@ namespace ShopApp.Application.Services.Extensions
                     IssuerSigningKey = new SymmetricSecurityKey(PrivateKeyService.privateKey),
                     ValidateIssuer = false,
                     ValidateAudience = false
-
                 };
             });
         }

@@ -22,12 +22,13 @@ namespace ShopApp.Infrastructure.Services.Extensions
               options.UseSqlServer(configuration.GetConnectionString("ShopConnectionString")));
         }
 
-        public static void ApplyMigration(this IApplicationBuilder app)
+        public static void ApplyMigration(IApplicationBuilder app)
         {
-            var serviceScope = app.ApplicationServices.CreateScope();
-            var serviceDb = serviceScope.ServiceProvider.GetService<DataContext>();
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<DataContext>().Database.Migrate();
+            }
 
-            serviceDb?.Database.Migrate();            
         }
     }
 }

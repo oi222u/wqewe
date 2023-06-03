@@ -12,13 +12,11 @@ builder.Services.RegisterApplicationServices();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.MigrateDatabase();
 
-DataServicesInitializerExtension.ApplyMigration(app);
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseStaticFiles(new StaticFileOptions

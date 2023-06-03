@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using ShopApp.Infrastructure.Data;
-using System;
 
 namespace ShopApp.Infrastructure.Services.Extensions
 {
@@ -22,13 +21,34 @@ namespace ShopApp.Infrastructure.Services.Extensions
               options.UseSqlServer(configuration.GetConnectionString("ShopConnectionString")));
         }
 
-        public static void ApplyMigration(IApplicationBuilder app)
+        public static IHost MigrateDatabase(this IHost host)
         {
-            using (var serviceScope = app.ApplicationServices.CreateScope())
+            bool success = false;
+            do
             {
-                serviceScope.ServiceProvider.GetService<DataContext>().Database.Migrate();
-            }
+                using (var scope = host.Services.CreateScope())
+                {
+                    using (var appContext = scope.ServiceProvider.GetRequiredService<DataContext>())
+                    {
+                        try
+                        {
+                            appContext.Database.Migrate();
+                            success = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Migration failed: {ex.Message}");
+                        }
+                    }
+                }
 
+                if (!success)
+                {
+                    Task.Delay(TimeSpan.FromSeconds(5)).Wait();
+                }
+            } while (!success);
+
+            return host;
         }
     }
 }

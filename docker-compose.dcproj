@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>99643cf7-c66b-4c69-a640-8a2356c1dd3b</ProjectGuid>
+    <ProjectGuid>7118495c-3fbe-4d2d-8774-9e5c5637a32a</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>shopapp.webapi</DockerServiceName>
